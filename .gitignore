@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI coding agent skills/tooling — local to this machine, not shared team
+# config. Includes compiled per-platform binaries (e.g. impeccable.exe)
+# that shouldn't be committed to a web project's repo.
+/.claude/
+/.agents/
+skills-lock.json

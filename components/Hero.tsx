@@ -18,7 +18,7 @@ export default function Hero({ homepage }: { homepage: HomepageData }) {
             </span>
           )}
 
-          <h1 className="font-display text-5xl font-medium leading-[1.05] text-pure-white sm:text-6xl lg:text-[80px] lg:leading-[1.05]">
+          <h1 className="font-display text-5xl font-medium leading-[1.05] tracking-[-0.03em] text-pure-white sm:text-6xl lg:text-[60px] lg:leading-[1.05]">
             {headingParts.map((part, i) =>
               part.accent ? (
                 <span key={i} className="font-accent italic text-forge-orange">
@@ -40,7 +40,7 @@ export default function Hero({ homepage }: { homepage: HomepageData }) {
             {homepage.heroPrimaryCta?.label && (
               <Link
                 href={homepage.heroPrimaryCta.href ?? "/contact"}
-                className="inline-flex items-center gap-3 rounded-[10px] border border-forge-orange bg-forge-orange px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:bg-transparent"
+                className="press inline-flex items-center gap-3 rounded-[10px] border border-forge-orange bg-forge-orange px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:bg-transparent"
               >
                 {homepage.heroPrimaryCta.label}
                 <ArrowIcon />
@@ -49,7 +49,7 @@ export default function Hero({ homepage }: { homepage: HomepageData }) {
             {homepage.heroSecondaryCta?.label && (
               <Link
                 href={homepage.heroSecondaryCta.href ?? "/contact"}
-                className="inline-flex items-center gap-3 rounded-[10px] border border-white px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:bg-white hover:text-forge-black"
+                className="press inline-flex items-center gap-3 rounded-[10px] border border-white px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:bg-white hover:text-forge-black"
               >
                 {homepage.heroSecondaryCta.label}
                 <ArrowIcon />

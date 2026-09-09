@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { HomepageData } from "@/lib/sanity/types";
 import { parseAccentText } from "@/lib/parseAccentText";
 import { urlFor } from "@/sanity/lib/image";
+import Reveal from "./Reveal";
 
 export default function Capabilities({ homepage }: { homepage: HomepageData }) {
   const pillars = homepage.pillars ?? [];
@@ -40,27 +41,28 @@ export default function Capabilities({ homepage }: { homepage: HomepageData }) {
 
       <div className="grid grid-cols-1 overflow-hidden rounded-2xl sm:grid-cols-2 lg:grid-cols-4">
         {pillars.map((pillar, i) => (
-          <Link
-            key={pillar.slug}
-            href={pillar.href}
-            className={`group flex flex-col gap-6 p-9 transition-colors ${
-              i % 2 === 0 ? "bg-forge-black-darker" : "bg-forge-black-light"
-            } hover:bg-forge-orange/10`}
-          >
-            {pillar.icon ? (
-              <Image src={urlFor(pillar.icon).width(35).height(35).url()} alt="" width={35} height={35} />
-            ) : (
-              <PillarIcon />
-            )}
-            <h3 className="font-display text-2xl font-medium text-pure-white">{pillar.title}</h3>
-            {pillar.shortDescription && (
-              <p className="font-display text-base text-body-text">{pillar.shortDescription}</p>
-            )}
-            <span className="mt-auto inline-flex items-center gap-2 font-display text-base font-medium text-pure-white">
-              Learn More
-              <ArrowIcon />
-            </span>
-          </Link>
+          <Reveal key={pillar.slug} delayMs={i * 60}>
+            <Link
+              href={pillar.href}
+              className={`press group flex h-full flex-col gap-6 p-9 transition-colors ${
+                i % 2 === 0 ? "bg-forge-black-darker" : "bg-forge-black-light"
+              } hover:bg-forge-orange/10`}
+            >
+              {pillar.icon ? (
+                <Image src={urlFor(pillar.icon).width(35).height(35).url()} alt="" width={35} height={35} />
+              ) : (
+                <PillarIcon />
+              )}
+              <h3 className="font-display text-2xl font-medium text-pure-white">{pillar.title}</h3>
+              {pillar.shortDescription && (
+                <p className="font-display text-base text-body-text">{pillar.shortDescription}</p>
+              )}
+              <span className="mt-auto inline-flex items-center gap-2 font-display text-base font-medium text-pure-white">
+                Learn More
+                <ArrowIcon />
+              </span>
+            </Link>
+          </Reveal>
         ))}
       </div>
     </section>

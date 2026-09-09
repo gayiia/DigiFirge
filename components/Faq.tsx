@@ -53,14 +53,23 @@ export default function Faq({ homepage }: { homepage: HomepageData }) {
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="flex w-full items-center justify-between gap-6 py-5 text-left font-display text-lg font-medium text-pure-white sm:text-2xl"
+                    className="press flex w-full items-center justify-between gap-6 py-5 text-left font-display text-lg font-medium text-pure-white sm:text-2xl"
                   >
                     {item.question}
                     <CaretIcon isOpen={isOpen} />
                   </button>
                 </h3>
-                <div id={panelId} role="region" aria-labelledby={buttonId} hidden={!isOpen} className="pb-5 font-display text-base text-body-text">
-                  {item.answer}
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  aria-hidden={!isOpen}
+                  className="grid transition-[grid-template-rows] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]"
+                  style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
+                >
+                  <div className="overflow-hidden">
+                    <p className="pb-5 font-display text-base text-body-text">{item.answer}</p>
+                  </div>
                 </div>
               </div>
             );
@@ -73,7 +82,7 @@ export default function Faq({ homepage }: { homepage: HomepageData }) {
 
 function CaretIcon({ isOpen }: { isOpen: boolean }) {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" className={`shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" className={`shrink-0 transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] ${isOpen ? "rotate-180" : ""}`}>
       <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );

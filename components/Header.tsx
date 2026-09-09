@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { SiteSettingsData } from "@/lib/sanity/types";
+import { urlFor } from "@/sanity/lib/image";
 
 export default function Header({ settings }: { settings: SiteSettingsData }) {
   const links = settings.navigation ?? [];
@@ -8,12 +10,25 @@ export default function Header({ settings }: { settings: SiteSettingsData }) {
   return (
     <header className="sticky top-0 z-50 bg-forge-black/95 shadow-[0_12px_14px_rgba(0,0,0,0.2)] backdrop-blur supports-[backdrop-filter]:bg-forge-black/80">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-8 px-6 py-6 md:px-12">
-        <Link
-          href="/"
-          className="font-display text-xl font-semibold tracking-tight text-pure-white"
-        >
-          Digi<span className="text-forge-orange">forge</span>
-        </Link>
+        {settings.logo ? (
+          <Link href="/" className="shrink-0">
+            <Image
+              src={urlFor(settings.logo).width(320).height(80).url()}
+              alt={settings.logo.alt || settings.siteName || "DigiForge home"}
+              width={160}
+              height={40}
+              className="h-8 w-auto"
+              priority
+            />
+          </Link>
+        ) : (
+          <Link
+            href="/"
+            className="font-display text-xl font-semibold tracking-tight text-pure-white"
+          >
+            Digi<span className="text-forge-orange">forge</span>
+          </Link>
+        )}
 
         <nav aria-label="Primary" className="hidden items-center gap-10 md:flex">
           {links.map((link) => (
@@ -30,7 +45,7 @@ export default function Header({ settings }: { settings: SiteSettingsData }) {
         {cta?.label && (
           <Link
             href={cta.href ?? "/contact"}
-            className="hidden shrink-0 items-center justify-center gap-2 rounded-[10px] border border-forge-orange bg-forge-orange px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:bg-transparent md:inline-flex"
+            className="press hidden shrink-0 items-center justify-center gap-2 rounded-[10px] border border-forge-orange bg-forge-orange px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:bg-transparent md:inline-flex"
           >
             {cta.label}
             <ArrowIcon />

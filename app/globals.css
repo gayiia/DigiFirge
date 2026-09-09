@@ -76,6 +76,11 @@
 
   --background: var(--color-forge-black);
   --foreground: var(--color-pure-white);
+
+  /* Motion — stronger, more intentional curves than the built-in CSS
+     easings (which read as sluggish/weak for UI). */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 @theme inline {
@@ -116,6 +121,17 @@ body {
   font-family: var(--font-display);
 }
 
+/* Hides the native scrollbar on horizontally-scrolling carousels while
+   keeping the element scrollable (mouse drag, touch swipe, arrow buttons,
+   and keyboard once focused) — purely cosmetic, not an a11y regression. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Visible focus states everywhere — accessibility requirement, not optional */
 a:focus-visible,
 button:focus-visible,
@@ -124,4 +140,25 @@ input:focus-visible,
   outline: 2px solid var(--color-forge-orange);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* Theme browser-default surfaces from the palette instead of leaving them
+   at user-agent defaults — cheap signal of a built (not assembled) page. */
+::selection {
+  background: var(--color-forge-orange);
+  color: var(--color-pure-white);
+}
+
+/* Shared press-feedback affordance for buttons/CTAs — confirms the UI
+   heard the click. Kept off scroll/opacity so it's cheap (transform-only). */
+.press {
+  transition: transform 160ms var(--ease-out-strong);
+}
+.press:active {
+  transform: scale(0.97);
+}
+@media (prefers-reduced-motion: reduce) {
+  .press:active {
+    transform: none;
+  }
 }

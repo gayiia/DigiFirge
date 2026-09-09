@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { SiteSettingsData } from "@/lib/sanity/types";
+import { urlFor } from "@/sanity/lib/image";
 
 export default function Footer({ settings }: { settings: SiteSettingsData }) {
   const columns = settings.footerColumns ?? [];
@@ -9,10 +11,23 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
   return (
     <footer className="mx-auto max-w-[1440px] px-6 pb-6 md:px-12">
       <div className="rounded-2xl bg-forge-black-darker px-6 py-14 sm:px-10">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr]">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
           {/* Newsletter — capture-only until a provider is chosen; collapses if disabled. */}
           {newsletter?.enabled && (
             <div className="flex flex-col gap-4">
+              {settings.logo ? (
+                <Image
+                  src={urlFor(settings.logo).width(480).height(120).url()}
+                  alt={settings.logo.alt || settings.siteName || "DigiForge"}
+                  width={240}
+                  height={60}
+                  className="h-12 w-auto self-start"
+                />
+              ) : (
+                <p className="self-start font-display text-2xl font-semibold tracking-tight text-pure-white">
+                  Digi<span className="text-forge-orange">forge</span>
+                </p>
+              )}
               {newsletter.heading && (
                 <p className="font-display text-lg font-medium text-pure-white">{newsletter.heading}</p>
               )}
@@ -77,7 +92,7 @@ function NewsletterForm() {
       />
       <button
         type="submit"
-        className="shrink-0 rounded-full bg-forge-orange px-4 py-2.5 font-display text-sm font-medium text-pure-white transition-colors hover:bg-forge-orange/80"
+        className="press shrink-0 rounded-full bg-forge-orange px-4 py-2.5 font-display text-sm font-medium text-pure-white transition-colors hover:bg-forge-orange/80"
       >
         Subscribe
       </button>

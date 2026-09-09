@@ -30,23 +30,25 @@ export const homepageQuery = /* groq */ `
   capabilitiesEyebrow,
   capabilitiesHeading,
   capabilitiesIntro,
-  "pillars": featuredPillars[]->{
+  "pillars": (featuredPillars[]->{
+    _id,
     title,
     "slug": slug.current,
     shortDescription,
     icon{..., alt},
     "href": "/services/" + slug.current
-  },
+  })[_id != null],
   featuredWorkEyebrow,
   featuredWorkHeading,
-  "featuredWork": featuredProjects[]->{
+  "featuredWork": (featuredProjects[]->{
+    _id,
     title,
     "slug": slug.current,
     client,
     platformTags,
     coverImage{..., alt},
     "href": "/work/" + slug.current
-  },
+  })[_id != null],
   finalCtaHeading,
   finalCtaBody,
   finalCtaTags,

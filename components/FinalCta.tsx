@@ -52,7 +52,7 @@ export default function FinalCta({ homepage }: { homepage: HomepageData }) {
             {homepage.finalCtaPanelCta?.label && (
               <Link
                 href={homepage.finalCtaPanelCta.href ?? "/contact"}
-                className="inline-flex w-fit items-center gap-3 rounded-[10px] border border-forge-orange bg-forge-orange px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:border-pure-white hover:bg-transparent"
+                className="press inline-flex w-fit items-center gap-3 rounded-[10px] border border-forge-orange bg-forge-orange px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:border-pure-white hover:bg-transparent"
               >
                 {homepage.finalCtaPanelCta.label}
                 <ArrowIcon />
