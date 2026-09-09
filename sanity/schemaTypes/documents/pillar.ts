@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { altField } from "../objects/imageWithAlt";
 
 export default defineType({
   name: "pillar",
@@ -20,10 +21,10 @@ export default defineType({
       validation: (Rule) => Rule.required(),
       description: "Produces /services/[slug] — e.g. 'strategy', 'build', 'creative', 'ai-automation'.",
     }),
-    defineField({ name: "icon", title: "Icon", type: "image", group: "content" }),
+    defineField({ name: "icon", title: "Icon", type: "image", group: "content", fields: [altField] }),
     defineField({ name: "shortDescription", title: "Short description", type: "text", rows: 2, group: "content" }),
     defineField({ name: "positioningStatement", title: "Positioning statement", type: "string", group: "content", description: "e.g. 'Think before you build.'" }),
-    defineField({ name: "heroImage", title: "Hero image", type: "image", group: "content" }),
+    defineField({ name: "heroImage", title: "Hero image", type: "image", group: "content", fields: [altField] }),
     defineField({ name: "introduction", title: "Introduction", type: "array", of: [{ type: "block" }], group: "content" }),
     defineField({ name: "whyItMatters", title: "Why it matters", type: "array", of: [{ type: "block" }], group: "content" }),
     defineField({ name: "process", title: "Process steps", type: "array", of: [{ type: "processStep" }], group: "content" }),

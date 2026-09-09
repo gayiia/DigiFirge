@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { altField } from "../objects/imageWithAlt";
 
 export default defineType({
   name: "siteSettings",
@@ -7,7 +8,7 @@ export default defineType({
   // Singleton — Studio structure (deskStructure.ts) prevents creating more than one.
   fields: [
     defineField({ name: "siteName", title: "Site name", type: "string", initialValue: "DigiForge" }),
-    defineField({ name: "logo", title: "Logo", type: "image" }),
+    defineField({ name: "logo", title: "Logo", type: "image", fields: [altField] }),
     defineField({
       name: "tagline",
       title: "Tagline",

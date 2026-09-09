@@ -40,7 +40,7 @@ export default function FeaturedWork({ homepage }: { homepage: HomepageData }) {
           <article key={project.slug} className="flex flex-col gap-6 rounded-2xl bg-forge-black-darker p-6">
             {project.coverImage ? (
               <div className="relative h-[260px] w-full overflow-hidden rounded-2xl sm:h-[320px]">
-                <Image src={urlFor(project.coverImage).width(700).url()} alt="" fill className="object-cover" />
+                <Image src={urlFor(project.coverImage).width(700).url()} alt={project.coverImage.alt ?? `${project.title} — project screenshot`} fill className="object-cover" />
               </div>
             ) : (
               <div
@@ -52,14 +52,14 @@ export default function FeaturedWork({ homepage }: { homepage: HomepageData }) {
               {(project.platformTags ?? []).map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-forge-orange bg-forge-orange-tint px-3 py-1 font-display text-sm font-medium text-forge-orange"
+                  className="rounded-full border border-forge-orange bg-forge-orange-tint px-3 py-1 font-display text-sm font-medium text-forge-orange-text"
                 >
                   {tag}
                 </span>
               ))}
             </div>
             <h3 className="font-display text-2xl font-medium leading-snug text-pure-white">{project.title}</h3>
-            <Link href={project.href} className="inline-flex items-center gap-2 font-display text-lg font-medium text-forge-orange">
+            <Link href={project.href} className="inline-flex items-center gap-2 font-display text-lg font-medium text-forge-orange-text">
               Learn More About This Project
               <ArrowIcon />
             </Link>

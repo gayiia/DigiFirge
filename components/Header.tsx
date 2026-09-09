@@ -20,7 +20,7 @@ export default function Header({ settings }: { settings: SiteSettingsData }) {
             <Link
               key={link.href}
               href={link.href ?? "#"}
-              className="font-display text-base font-medium text-pure-white transition-colors hover:text-forge-orange"
+              className="font-display text-base font-medium text-pure-white transition-colors hover:text-forge-orange-text"
             >
               {link.label}
             </Link>

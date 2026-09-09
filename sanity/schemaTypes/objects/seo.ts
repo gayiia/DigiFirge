@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { altField } from "./imageWithAlt";
 
 export default defineType({
   name: "seo",
@@ -36,6 +37,7 @@ export default defineType({
       title: "Open Graph image",
       type: "image",
       description: "Falls back to the site default OG image if left blank.",
+      fields: [altField],
     }),
     defineField({
       name: "canonicalUrl",

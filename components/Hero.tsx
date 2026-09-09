@@ -61,7 +61,7 @@ export default function Hero({ homepage }: { homepage: HomepageData }) {
         <div className="w-full lg:w-1/2">
           {imageUrl ? (
             <div className="relative h-[280px] w-full overflow-hidden rounded-2xl sm:h-[360px] lg:h-[424px]">
-              <Image src={imageUrl} alt="" fill className="object-cover" priority />
+              <Image src={imageUrl} alt={homepage.heroImage?.alt ?? ""} fill className="object-cover" priority />
             </div>
           ) : (
             <div

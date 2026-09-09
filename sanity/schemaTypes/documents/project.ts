@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { altField } from "../objects/imageWithAlt";
 
 export default defineType({
   name: "project",
@@ -22,8 +23,8 @@ export default defineType({
       group: "content",
       description: "e.g. Shopify, WordPress, Webflow, Custom.",
     }),
-    defineField({ name: "coverImage", title: "Cover image", type: "image", group: "content" }),
-    defineField({ name: "gallery", title: "Gallery", type: "array", of: [{ type: "image" }], group: "content" }),
+    defineField({ name: "coverImage", title: "Cover image", type: "image", group: "content", fields: [altField] }),
+    defineField({ name: "gallery", title: "Gallery", type: "array", of: [{ type: "image", fields: [altField] }], group: "content" }),
     defineField({ name: "challenge", title: "Challenge", type: "array", of: [{ type: "block" }], group: "content" }),
     defineField({ name: "strategy", title: "Strategy", type: "array", of: [{ type: "block" }], group: "content" }),
     defineField({ name: "solution", title: "Solution", type: "array", of: [{ type: "block" }], group: "content" }),

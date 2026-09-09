@@ -19,7 +19,7 @@ export default function TrustBar({ homepage }: { homepage: HomepageData }) {
             <Image
               key={`${logo.name}-${i}`}
               src={urlFor(logo.logo).height(32).url()}
-              alt={logo.name ?? ""}
+              alt={logo.logo.alt || logo.name || ""}
               width={140}
               height={32}
               className="h-8 w-auto object-contain"

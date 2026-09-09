@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { altField } from "../objects/imageWithAlt";
 
 export default defineType({
   name: "homepage",
@@ -25,7 +26,7 @@ export default defineType({
       group: "hero",
     }),
     defineField({ name: "heroSubhead", title: "Subheading", type: "text", rows: 2, group: "hero" }),
-    defineField({ name: "heroImage", title: "Hero image", type: "image", group: "hero" }),
+    defineField({ name: "heroImage", title: "Hero image", type: "image", group: "hero", fields: [altField] }),
     defineField({ name: "heroPrimaryCta", title: "Primary CTA", type: "cta", group: "hero" }),
     defineField({ name: "heroSecondaryCta", title: "Secondary CTA", type: "cta", group: "hero" }),
 
@@ -42,7 +43,7 @@ export default defineType({
           name: "trustLogo",
           fields: [
             defineField({ name: "name", title: "Name", type: "string" }),
-            defineField({ name: "logo", title: "Logo image", type: "image" }),
+            defineField({ name: "logo", title: "Logo image", type: "image", fields: [altField] }),
           ],
           preview: { select: { title: "name", media: "logo" } },
         },

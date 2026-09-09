@@ -27,7 +27,7 @@ export default function FinalCta({ homepage }: { homepage: HomepageData }) {
             {(homepage.finalCtaTags ?? []).map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-forge-orange bg-forge-orange-tint px-3 py-1 font-display text-sm font-medium text-forge-orange"
+                className="rounded-full border border-forge-orange bg-forge-orange-tint px-3 py-1 font-display text-sm font-medium text-forge-orange-text"
               >
                 {tag}
               </span>

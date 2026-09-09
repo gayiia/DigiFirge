@@ -26,7 +26,7 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
               <ul className="flex flex-col gap-3">
                 {(column.links ?? []).map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href ?? "#"} className="font-display text-base text-pure-white transition-colors hover:text-forge-orange">
+                    <Link href={link.href ?? "#"} className="font-display text-base text-pure-white transition-colors hover:text-forge-orange-text">
                       {link.label}
                     </Link>
                   </li>
@@ -48,7 +48,7 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
                 aria-label={s.platform}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-display text-sm text-pure-white transition-colors hover:text-forge-orange"
+                className="font-display text-sm text-pure-white transition-colors hover:text-forge-orange-text"
               >
                 {s.platform}
               </a>

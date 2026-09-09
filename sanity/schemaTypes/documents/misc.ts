@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { altField } from "./../objects/imageWithAlt";
 
 export const teamMember = defineType({
   name: "teamMember",
@@ -8,7 +9,7 @@ export const teamMember = defineType({
     defineField({ name: "name", title: "Name", type: "string", validation: (Rule) => Rule.required() }),
     defineField({ name: "slug", title: "Slug", type: "slug", options: { source: "name", maxLength: 96 } }),
     defineField({ name: "role", title: "Role", type: "string" }),
-    defineField({ name: "photo", title: "Photo", type: "image" }),
+    defineField({ name: "photo", title: "Photo", type: "image", fields: [altField] }),
     defineField({ name: "bio", title: "Bio", type: "text", rows: 4 }),
     defineField({ name: "skillTags", title: "Skill tags", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "linkedin", title: "LinkedIn URL", type: "url" }),
@@ -27,7 +28,7 @@ export const testimonial = defineType({
     defineField({ name: "authorName", title: "Author name", type: "string" }),
     defineField({ name: "authorRole", title: "Author role", type: "string" }),
     defineField({ name: "company", title: "Company", type: "string" }),
-    defineField({ name: "avatar", title: "Avatar", type: "image" }),
+    defineField({ name: "avatar", title: "Avatar", type: "image", fields: [altField] }),
     defineField({
       name: "relatedProject",
       title: "Related project",

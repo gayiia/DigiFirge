@@ -61,6 +61,12 @@
   /* Brand colors — DigiForge Brand Guidelines v1.0 */
   --color-forge-orange: #c03e02;
   --color-forge-orange-tint: rgba(192, 62, 2, 0.2);
+  /* Same hue, brightened — for small/body-size orange text only.
+     #C03E02 measures ~3.5-3.8:1 on these dark backgrounds, which clears
+     WCAG AA for large text (3:1) but fails for normal text (needs 4.5:1).
+     This variant hits ~4.8-5.1:1. Large headline accents and button fills
+     keep using --color-forge-orange as before. */
+  --color-forge-orange-text: #e05014;
   --color-forge-black: #111111;
   --color-forge-black-darker: #060606;
   --color-forge-black-light: #222222;
@@ -75,6 +81,7 @@
 @theme inline {
   --color-forge-orange: var(--color-forge-orange);
   --color-forge-orange-tint: var(--color-forge-orange-tint);
+  --color-forge-orange-text: var(--color-forge-orange-text);
   --color-forge-black: var(--color-forge-black);
   --color-forge-black-darker: var(--color-forge-black-darker);
   --color-forge-black-light: var(--color-forge-black-light);
