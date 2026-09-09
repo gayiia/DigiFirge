@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------
+   DigiForge Design System
+   Colors, type and tokens per the approved Brand Guidelines (v1.0)
+   and the DigiForge.lk Figma reference design.
+--------------------------------------------------------------------- */
+
+/*
+  FONT SETUP — self-hosted, graceful fallback.
+
+  Add the real font files to /public/fonts and these @font-face rules
+  will pick them up automatically — no code changes needed elsewhere.
+
+  1. Clash Grotesk — free, from Fontshare (https://www.fontshare.com/fonts/clash-grotesk)
+     Place: /public/fonts/clash-grotesk/ClashGrotesk-Medium.woff2
+            /public/fonts/clash-grotesk/ClashGrotesk-Semibold.woff2
+            /public/fonts/clash-grotesk/ClashGrotesk-Regular.woff2
+
+  2. Instrument Serif — free, on Google Fonts
+     (https://fonts.google.com/specimen/Instrument+Serif)
+     Place: /public/fonts/instrument-serif/InstrumentSerif-Italic.woff2
+
+  Until those files are added, the fallback stacks below render a close
+  system-font approximation so the site still looks correct in dev.
+*/
+
+@font-face {
+  font-family: "Clash Grotesk";
+  src: url("/fonts/clash-grotesk/ClashGrotesk-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Clash Grotesk";
+  src: url("/fonts/clash-grotesk/ClashGrotesk-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Clash Grotesk";
+  src: url("/fonts/clash-grotesk/ClashGrotesk-Semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("/fonts/instrument-serif/InstrumentSerif-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* Brand colors — DigiForge Brand Guidelines v1.0 */
+  --color-forge-orange: #c03e02;
+  --color-forge-orange-tint: rgba(192, 62, 2, 0.2);
+  --color-forge-black: #111111;
+  --color-forge-black-darker: #060606;
+  --color-forge-black-light: #222222;
+  --color-pure-white: #ffffff;
+  --color-body-text: #f0f3f9;
+  --color-muted: #9a9a9a;
+
+  --background: var(--color-forge-black);
+  --foreground: var(--color-pure-white);
+}
+
+@theme inline {
+  --color-forge-orange: var(--color-forge-orange);
+  --color-forge-orange-tint: var(--color-forge-orange-tint);
+  --color-forge-black: var(--color-forge-black);
+  --color-forge-black-darker: var(--color-forge-black-darker);
+  --color-forge-black-light: var(--color-forge-black-light);
+  --color-pure-white: var(--color-pure-white);
+  --color-body-text: var(--color-body-text);
+  --color-muted: var(--color-muted);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-display: "Clash Grotesk", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-accent: "Instrument Serif", ui-serif, Georgia, "Times New Roman",
+    serif;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-display);
+}
+
+/* Visible focus states everywhere — accessibility requirement, not optional */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-forge-orange);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
