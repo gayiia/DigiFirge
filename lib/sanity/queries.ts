@@ -27,6 +27,7 @@ export const homepageQuery = /* groq */ `
   heroPrimaryCta,
   heroSecondaryCta,
   trustBarLogos[]{name, logo{..., alt}},
+  trustBarSpeed,
   capabilitiesEyebrow,
   capabilitiesHeading,
   capabilitiesIntro,

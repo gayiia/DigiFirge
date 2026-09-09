@@ -62,6 +62,7 @@ export type HomepageData = {
   heroSecondaryCta?: CtaData;
 
   trustBarLogos?: TrustLogoData[];
+  trustBarSpeed?: number;
 
   capabilitiesEyebrow?: string;
   capabilitiesHeading?: string;

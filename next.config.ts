@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         pathname: "/images/**",
       },
     ],
+    // Some networks (this dev machine included) resolve cdn.sanity.io
+    // through a NAT64 IPv6 address, which Next's SSRF guard otherwise
+    // treats as a private IP and refuses to fetch. Safe here because
+    // remotePatterns above already locks fetches to that exact trusted
+    // hostname — this isn't opening fetches to arbitrary private IPs.
+    dangerouslyAllowLocalIP: true,
   },
 
   // Baseline security headers — OWASP Top 10:2025 A02 (Security Misconfiguration).

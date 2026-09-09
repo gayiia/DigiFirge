@@ -96,6 +96,7 @@ export const fallbackHomepage: HomepageData = {
     { name: "Shopify Partner", logo: null },
     { name: "Klaviyo", logo: null },
   ],
+  trustBarSpeed: 30,
 
   capabilitiesEyebrow: "What We Do",
   capabilitiesHeading: "Digital solutions that drive **real impact**",

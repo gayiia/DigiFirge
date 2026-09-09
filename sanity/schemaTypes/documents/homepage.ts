@@ -49,6 +49,15 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      name: "trustBarSpeed",
+      title: "Carousel speed (seconds per loop)",
+      type: "number",
+      group: "trustBar",
+      initialValue: 30,
+      description: "How long one full loop of the logo carousel takes. Lower = faster. Ignored (static row) if reduced motion is enabled on the visitor's device.",
+      validation: (Rule) => Rule.min(5).max(120),
+    }),
 
     // --- Capabilities ---
     defineField({ name: "capabilitiesEyebrow", title: "Eyebrow badge", type: "string", group: "capabilities" }),

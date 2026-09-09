@@ -162,3 +162,29 @@ input:focus-visible,
     transform: none;
   }
 }
+
+/* Trust-bar logo carousel: two back-to-back copies of the same set,
+   translated exactly -50% so the loop from last logo back to first is
+   seamless. Speed comes from the CMS via the --marquee-duration var. */
+.marquee-fade {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.marquee-track {
+  animation-name: marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+/* WCAG 2.2.2 (Pause, Stop, Hide) — auto-moving content needs a pause
+   mechanism; hover/focus-pause is handled inline on the element itself. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+}
