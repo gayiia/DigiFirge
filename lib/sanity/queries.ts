@@ -1,0 +1,62 @@
+// GROQ queries used by lib/sanity/fetchers.ts.
+// Kept separate from the fetch logic so they're easy to test in Sanity Vision
+// (visit /studio/vision and paste any of these in).
+
+export const siteSettingsQuery = /* groq */ `
+*[_type == "siteSettings"][0]{
+  siteName,
+  tagline,
+  logo,
+  contact,
+  socialLinks,
+  navigation,
+  navigationCta,
+  footerColumns,
+  footerCopyright,
+  newsletterSettings,
+  defaultSeo
+}
+`;
+
+export const homepageQuery = /* groq */ `
+*[_type == "homepage"][0]{
+  heroEyebrow,
+  heroHeading,
+  heroSubhead,
+  heroImage,
+  heroPrimaryCta,
+  heroSecondaryCta,
+  trustBarLogos,
+  capabilitiesEyebrow,
+  capabilitiesHeading,
+  capabilitiesIntro,
+  "pillars": featuredPillars[]->{
+    title,
+    "slug": slug.current,
+    shortDescription,
+    icon,
+    "href": "/services/" + slug.current
+  },
+  featuredWorkEyebrow,
+  featuredWorkHeading,
+  "featuredWork": featuredProjects[]->{
+    title,
+    "slug": slug.current,
+    client,
+    platformTags,
+    coverImage,
+    "href": "/work/" + slug.current
+  },
+  finalCtaHeading,
+  finalCtaBody,
+  finalCtaTags,
+  finalCtaPanelHeading,
+  finalCtaPanelBody,
+  finalCtaPanelCta,
+  faqEyebrow,
+  faqHeading,
+  faqIntro,
+  faqs,
+  seo
+}
+`;
