@@ -8,7 +8,8 @@ that replaces re-explaining the project each time.
 
 DigiForge — an independent digital agency in Sri Lanka (Strategy,
 Technology, Creative, AI). This repo is the company's own marketing
-website. Phase 0 (Homepage) and Phase 1 (Pillar pages) are both done.
+website. Phases 0–2 (Homepage, Pillar pages, Service detail pages) are
+done.
 See "Phases" below.
 
 ## Tech stack (do not change without discussion)
@@ -100,7 +101,7 @@ As real backend logic gets added (forms, auth — Phase 5), Broken Access Contro
 
 - [x] Phase 0 — Homepage
 - [x] Phase 1 — Pillar pages (`/services/strategy`, `/build`, `/creative`, `/ai-automation`)
-- [ ] Phase 2 — Service detail pages (16 services, 1 template) — collection exists (`Services`), no route/fetcher yet
+- [x] Phase 2 — Service detail pages (`/services/[pillar]/[service]`, 1 template) — 0 services entered yet, template ready
 - [ ] Phase 3 — Work / case studies — collection exists (`Projects`), no listing/detail route yet
 - [ ] Phase 4 — About — `TeamMembers` collection exists, no route yet
 - [ ] Phase 5 — Contact & Pricing (forms — security baseline above becomes live) — `PricingPackages` collection exists, no route yet

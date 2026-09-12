@@ -15,6 +15,7 @@ import type {
   PillarData,
   ProjectSummary,
   SeoData,
+  ServiceData,
   ServiceSummary,
   SiteSettingsData,
 } from "./types";
@@ -196,6 +197,41 @@ export function mapPillar(doc: PayloadPillar): PillarData {
           avatar: mapImage(testimonial.avatar),
         }
       : null,
+    seo: mapSeo(doc.seo),
+  };
+}
+
+export function mapService(doc: PayloadService): ServiceData {
+  const pillar: PayloadPillar | null = isPopulated(doc.pillar) ? doc.pillar : null;
+  // Related services are usually siblings under the same pillar — if a
+  // related service's own `pillar` relationship isn't populated at this
+  // query depth, fall back to this service's pillar for its href rather
+  // than dropping the link entirely.
+  const fallbackPillarSlug = pillar?.slug ?? "";
+
+  return {
+    title: doc.title,
+    slug: doc.slug,
+    shortDescription: doc.shortDescription ?? undefined,
+    heroImage: mapImage(doc.heroImage),
+    whatIncluded: mapStringArray(doc.whatIncluded, "item"),
+    process: doc.process?.map((p) => ({ title: p.title ?? undefined, description: p.description ?? undefined })),
+    pricingStartingFrom: doc.pricingStartingFrom ?? undefined,
+    featureBlocks: doc.featureBlocks?.map((b) => ({
+      heading: b.heading ?? undefined,
+      body: b.body ?? undefined,
+      image: mapImage(b.image),
+    })),
+    faqs: mapFaqs(doc.faqs),
+    pillar: pillar ? mapPillarSummary(pillar) : null,
+    caseStudies: (doc.caseStudies ?? []).map(mapProjectSummary).filter((p) => p !== null),
+    relatedServices: (doc.relatedServices ?? [])
+      .map((s) => {
+        if (!isPopulated(s)) return null;
+        const slug = isPopulated(s.pillar) ? s.pillar.slug : fallbackPillarSlug;
+        return mapServiceSummary(s, slug);
+      })
+      .filter((s) => s !== null),
     seo: mapSeo(doc.seo),
   };
 }

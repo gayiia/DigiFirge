@@ -125,3 +125,21 @@ export type PillarData = {
   testimonial?: TestimonialData | null;
   seo?: SeoData;
 };
+
+export type FeatureBlockData = { heading?: string; body?: string; image?: ImageWithAlt | null };
+
+export type ServiceData = {
+  title: string;
+  slug: string;
+  shortDescription?: string;
+  heroImage?: ImageWithAlt | null;
+  whatIncluded?: string[];
+  process?: ProcessStepData[];
+  pricingStartingFrom?: string;
+  featureBlocks?: FeatureBlockData[];
+  faqs?: FaqItemData[];
+  pillar?: PillarSummary | null;
+  caseStudies?: ProjectSummary[];
+  relatedServices?: ServiceSummary[];
+  seo?: SeoData;
+};
