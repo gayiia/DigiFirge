@@ -4,11 +4,14 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ServiceHero from "@/components/ServiceHero";
 import ServiceWhatIncluded from "@/components/ServiceWhatIncluded";
+import TechStack from "@/components/TechStack";
 import ProcessSteps from "@/components/ProcessSteps";
 import ServiceFeatureBlocks from "@/components/ServiceFeatureBlocks";
 import ServicesGrid from "@/components/ServicesGrid";
 import CaseStudiesGrid from "@/components/CaseStudiesGrid";
 import FaqAccordion from "@/components/FaqAccordion";
+import ClosingCta from "@/components/ClosingCta";
+import SectionNav, { type SectionNavItem } from "@/components/SectionNav";
 import { getService, getServiceParams, getSiteSettings } from "@/lib/cms/fetchers";
 
 export async function generateStaticParams() {
@@ -42,21 +45,42 @@ export default async function ServicePage({
 
   if (!service) notFound();
 
+  const navItems: SectionNavItem[] = [
+    { id: "overview", label: "Overview" },
+    (service.process?.length ?? 0) > 0 && { id: "process", label: "Process" },
+    (service.caseStudies?.length ?? 0) > 0 && { id: "work", label: "Work" },
+    (service.relatedServices?.length ?? 0) > 0 && { id: "related", label: "Related Services" },
+    (service.faqs?.length ?? 0) >= 2 && { id: "faq", label: "FAQ" },
+  ].filter((item): item is SectionNavItem => Boolean(item));
+
   return (
     <>
       <Header settings={settings} />
       <main>
-        <ServiceHero service={service} />
+        <div id="overview">
+          <ServiceHero service={service} />
+        </div>
+        <SectionNav items={navItems} />
         <ServiceWhatIncluded service={service} />
-        <ProcessSteps steps={service.process} />
+        <TechStack tools={service.techStack} />
+        <div id="process">
+          <ProcessSteps steps={service.process} />
+        </div>
         <ServiceFeatureBlocks service={service} />
-        <CaseStudiesGrid projects={service.caseStudies} />
-        <ServicesGrid services={service.relatedServices} />
-        <FaqAccordion
-          eyebrow="FAQs"
-          heading={`Questions about **${service.title}**`}
-          faqs={service.faqs}
-        />
+        <div id="work">
+          <CaseStudiesGrid projects={service.caseStudies} />
+        </div>
+        <div id="related">
+          <ServicesGrid services={service.relatedServices} />
+        </div>
+        <div id="faq">
+          <FaqAccordion
+            eyebrow="FAQs"
+            heading={`Questions about **${service.title}**`}
+            faqs={service.faqs}
+          />
+        </div>
+        <ClosingCta />
       </main>
       <Footer settings={settings} />
     </>

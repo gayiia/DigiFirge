@@ -219,6 +219,14 @@ export interface Pillar {
   shortDescription?: string | null;
   positioningStatement?: string | null;
   heroImage?: (number | null) | Media;
+  heroPrimaryCta?: {
+    label?: string | null;
+    href?: string | null;
+  };
+  heroSecondaryCta?: {
+    label?: string | null;
+    href?: string | null;
+  };
   introduction?: {
     root: {
       type: string;
@@ -249,6 +257,13 @@ export interface Pillar {
     };
     [k: string]: unknown;
   } | null;
+  differentiators?:
+    | {
+        title?: string | null;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   process?:
     | {
         title?: string | null;
@@ -289,9 +304,23 @@ export interface Service {
   slug: string;
   shortDescription?: string | null;
   heroImage?: (number | null) | Media;
+  heroPrimaryCta?: {
+    label?: string | null;
+    href?: string | null;
+  };
+  heroSecondaryCta?: {
+    label?: string | null;
+    href?: string | null;
+  };
   whatIncluded?:
     | {
         item?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  techStack?:
+    | {
+        tool?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -723,8 +752,27 @@ export interface PillarsSelect<T extends boolean = true> {
   shortDescription?: T;
   positioningStatement?: T;
   heroImage?: T;
+  heroPrimaryCta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
+  heroSecondaryCta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
   introduction?: T;
   whyItMatters?: T;
+  differentiators?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
   process?:
     | T
     | {
@@ -766,10 +814,28 @@ export interface ServicesSelect<T extends boolean = true> {
   slug?: T;
   shortDescription?: T;
   heroImage?: T;
+  heroPrimaryCta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
+  heroSecondaryCta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
   whatIncluded?:
     | T
     | {
         item?: T;
+        id?: T;
+      };
+  techStack?:
+    | T
+    | {
+        tool?: T;
         id?: T;
       };
   process?:

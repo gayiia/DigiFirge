@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 import type { PillarData } from "@/lib/cms/types";
 
@@ -7,7 +8,7 @@ export default function PillarHero({ pillar }: { pillar: PillarData }) {
   return (
     <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-12 md:py-20">
       <div className="flex flex-col items-center gap-12 lg:flex-row">
-        <div className="flex w-full flex-col items-start gap-6 lg:w-1/2">
+        <div className="flex w-full flex-col items-start gap-7 lg:w-1/2">
           {pillar.positioningStatement && (
             <span className="font-accent text-2xl italic text-forge-orange sm:text-3xl">
               {pillar.positioningStatement}
@@ -23,6 +24,27 @@ export default function PillarHero({ pillar }: { pillar: PillarData }) {
               {pillar.shortDescription}
             </p>
           )}
+
+          <div className="flex flex-wrap items-center gap-4">
+            {pillar.heroPrimaryCta?.label && (
+              <Link
+                href={pillar.heroPrimaryCta.href ?? "/contact"}
+                className="press inline-flex items-center gap-3 rounded-[10px] border border-forge-orange bg-forge-orange px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:bg-transparent"
+              >
+                {pillar.heroPrimaryCta.label}
+                <ArrowIcon />
+              </Link>
+            )}
+            {pillar.heroSecondaryCta?.label && (
+              <Link
+                href={pillar.heroSecondaryCta.href ?? "/work"}
+                className="press inline-flex items-center gap-3 rounded-[10px] border border-white px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:bg-white hover:text-forge-black"
+              >
+                {pillar.heroSecondaryCta.label}
+                <ArrowIcon />
+              </Link>
+            )}
+          </div>
         </div>
 
         <div className="w-full lg:w-1/2">
@@ -39,5 +61,13 @@ export default function PillarHero({ pillar }: { pillar: PillarData }) {
         </div>
       </div>
     </section>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 17 17" fill="none" aria-hidden="true" className="-rotate-45">
+      <path d="M2 8.5H15M15 8.5L9 2.5M15 8.5L9 14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }

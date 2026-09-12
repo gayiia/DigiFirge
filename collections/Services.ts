@@ -3,6 +3,7 @@ import { slugField } from "../fields/slug";
 import { stringArrayField } from "../fields/stringArray";
 import { processStepsField } from "../fields/processStep";
 import { faqItemsField } from "../fields/faqItem";
+import { ctaField } from "../fields/cta";
 import { seoField } from "../fields/seo";
 
 export const Services: CollectionConfig = {
@@ -10,12 +11,14 @@ export const Services: CollectionConfig = {
   admin: { useAsTitle: "title", defaultColumns: ["title", "pillar"] },
   fields: [
     { name: "title", type: "text", required: true },
-    // Unique globally for now — /services/[pillar]/[slug] nesting decided
-    // at Phase 2 when the service detail route actually gets built.
+    // Nested under its pillar: /services/[pillar-slug]/[slug]
     slugField("title"),
     { name: "shortDescription", type: "textarea" },
     { name: "heroImage", type: "upload", relationTo: "media" },
+    ctaField("heroPrimaryCta", "Hero primary CTA"),
+    ctaField("heroSecondaryCta", "Hero secondary CTA"),
     stringArrayField("whatIncluded", "item"),
+    stringArrayField("techStack", "tool"),
     processStepsField("process"),
     { name: "pricingStartingFrom", type: "text" },
     {

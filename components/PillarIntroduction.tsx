@@ -10,7 +10,7 @@ export default function PillarIntroduction({ pillar }: { pillar: PillarData }) {
       <RichText
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- LexicalRichText is intentionally loose; RichText's generic node typing isn't worth threading through here.
         data={pillar.introduction as any}
-        className="flex flex-col gap-4 [&_p]:max-w-[75ch] [&_p]:font-display [&_p]:text-base [&_p]:leading-relaxed [&_p]:text-body-text [&_strong]:font-semibold [&_strong]:text-pure-white [&_em]:font-accent [&_em]:italic"
+        className="flex flex-col gap-4 [&_blockquote]:my-2 [&_blockquote]:border-l-2 [&_blockquote]:border-forge-orange [&_blockquote]:py-1 [&_blockquote]:pl-6 [&_blockquote]:font-accent [&_blockquote]:text-2xl [&_blockquote]:italic [&_blockquote]:leading-snug [&_blockquote]:text-pure-white [&_em]:font-accent [&_em]:italic [&_p]:max-w-[75ch] [&_p]:font-display [&_p]:text-base [&_p]:leading-relaxed [&_p]:text-body-text [&_strong]:font-semibold [&_strong]:text-pure-white"
       />
     </section>
   );

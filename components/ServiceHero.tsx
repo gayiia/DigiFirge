@@ -30,6 +30,27 @@ export default function ServiceHero({ service }: { service: ServiceData }) {
               Starting from {service.pricingStartingFrom}
             </span>
           )}
+
+          <div className="flex flex-wrap items-center gap-4">
+            {service.heroPrimaryCta?.label && (
+              <Link
+                href={service.heroPrimaryCta.href ?? "/contact"}
+                className="press inline-flex items-center gap-3 rounded-[10px] border border-forge-orange bg-forge-orange px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:bg-transparent"
+              >
+                {service.heroPrimaryCta.label}
+                <ArrowIcon />
+              </Link>
+            )}
+            {service.heroSecondaryCta?.label && (
+              <Link
+                href={service.heroSecondaryCta.href ?? "/work"}
+                className="press inline-flex items-center gap-3 rounded-[10px] border border-white px-5 py-2.5 font-display text-base font-medium text-pure-white transition-colors hover:bg-white hover:text-forge-black"
+              >
+                {service.heroSecondaryCta.label}
+                <ArrowIcon />
+              </Link>
+            )}
+          </div>
         </div>
 
         <div className="w-full lg:w-1/2">
@@ -53,6 +74,14 @@ export default function ServiceHero({ service }: { service: ServiceData }) {
         </div>
       </div>
     </section>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 17 17" fill="none" aria-hidden="true" className="-rotate-45">
+      <path d="M2 8.5H15M15 8.5L9 2.5M15 8.5L9 14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 

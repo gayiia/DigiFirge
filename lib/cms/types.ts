@@ -100,6 +100,7 @@ export type HomepageData = {
 };
 
 export type ProcessStepData = { title?: string; description?: string };
+export type DifferentiatorData = { title?: string; description?: string };
 export type ServiceSummary = { title: string; slug: string; shortDescription?: string; href: string };
 export type TestimonialData = {
   quote?: string;
@@ -116,8 +117,11 @@ export type PillarData = {
   shortDescription?: string;
   positioningStatement?: string;
   heroImage?: ImageWithAlt | null;
+  heroPrimaryCta?: CtaData;
+  heroSecondaryCta?: CtaData;
   introduction?: LexicalRichText;
   whyItMatters?: LexicalRichText;
+  differentiators?: DifferentiatorData[];
   process?: ProcessStepData[];
   faqs?: FaqItemData[];
   services?: ServiceSummary[];
@@ -133,7 +137,10 @@ export type ServiceData = {
   slug: string;
   shortDescription?: string;
   heroImage?: ImageWithAlt | null;
+  heroPrimaryCta?: CtaData;
+  heroSecondaryCta?: CtaData;
   whatIncluded?: string[];
+  techStack?: string[];
   process?: ProcessStepData[];
   pricingStartingFrom?: string;
   featureBlocks?: FeatureBlockData[];
