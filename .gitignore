@@ -40,6 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# payload — local-disk media uploads (Phase 8 will move this to cloud
+# storage; until then these are local-machine files, not repo content)
+/media/
+
 # AI coding agent skills/tooling — local to this machine, not shared team
 # config. Includes compiled per-platform binaries (e.g. impeccable.exe)
 # that shouldn't be committed to a web project's repo.

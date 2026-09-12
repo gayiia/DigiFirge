@@ -3,9 +3,8 @@
 import { useRef, useState, useLayoutEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import type { HomepageData } from "@/lib/sanity/types";
+import type { HomepageData } from "@/lib/cms/types";
 import { parseAccentText } from "@/lib/parseAccentText";
-import { urlFor } from "@/sanity/lib/image";
 import Reveal from "./Reveal";
 
 const VISIBLE_CARDS = 2;
@@ -113,7 +112,7 @@ export default function FeaturedWork({ homepage }: { homepage: HomepageData }) {
             <article className="flex h-full flex-col gap-6 rounded-2xl bg-forge-black-darker p-6">
               {project.coverImage ? (
                 <div className="relative h-[260px] w-full overflow-hidden rounded-2xl sm:h-[320px]">
-                  <Image src={urlFor(project.coverImage).width(700).url()} alt={project.coverImage.alt ?? `${project.title} — project screenshot`} fill className="object-cover" />
+                  <Image src={project.coverImage.url} alt={project.coverImage.alt || `${project.title} — project screenshot`} fill sizes="(min-width: 640px) 50vw, 85vw" className="object-cover" />
                 </div>
               ) : (
                 <div

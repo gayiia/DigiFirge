@@ -8,14 +8,16 @@ that replaces re-explaining the project each time.
 
 DigiForge — an independent digital agency in Sri Lanka (Strategy,
 Technology, Creative, AI). This repo is the company's own marketing
-website. Currently in **Phase 1** (Pillar pages) after finishing Phase 0
-(Homepage). See "Phases" below.
+website. Phase 0 (Homepage) and Phase 1 (Pillar pages) are both done.
+See "Phases" below.
 
 ## Tech stack (do not change without discussion)
 
 - Next.js (App Router) + React + TypeScript
 - Tailwind CSS v4 — no other styling system
-- Sanity — CMS, schema-driven. Studio embedded at `/studio`.
+- Payload CMS 3.x, self-hosted — Postgres database, admin panel embedded
+  at `/admin`. Migrated off Sanity; see git history if you need the old
+  GROQ/Studio approach for reference.
 - No component library (shadcn/ui deliberately not used — components are
   hand-built in Tailwind to match the approved Figma design exactly)
 
@@ -23,21 +25,30 @@ website. Currently in **Phase 1** (Pillar pages) after finishing Phase 0
 
 ```bash
 npm install
-npm run dev          # localhost:3000
-npm run build         # must pass with zero errors before calling anything done
-npm run lint           # must be clean
-npx sanity dataset create production   # one-time, after creating a Sanity project
+npm run dev              # localhost:3000 (site) + localhost:3000/admin (CMS)
+npm run build             # must pass with zero errors before calling anything done
+npm run lint                # must be clean
+npm run generate:types       # regenerate payload-types.ts after any collection/global change
+npm run generate:importmap    # regenerate the admin panel's import map
+npm run seed                    # one-time: recreate baseline content in a fresh database
 ```
+
+Requires `DATABASE_URI` (Postgres connection string) and `PAYLOAD_SECRET`
+in `.env.local` — see that file's comments. Create your first admin user
+by visiting `/admin` after the database is connected.
 
 ## Core architecture principle
 
 **Build the template once, create unlimited content from the CMS.** No
 service, pillar, project, or blog post gets its own coded page — one
-template per content type, populated from Sanity. Never hardcode copy,
+template per content type, populated from Payload. Never hardcode copy,
 nav, footer, or FAQs into components; everything is a prop sourced from
-`lib/sanity/fetchers.ts` (which tries Sanity, falls back to
+`lib/cms/fetchers.ts` (which tries Payload, falls back to
 `lib/fallback-content.ts` if unconfigured or on failure — never let a
-CMS outage take the site down).
+CMS outage take the site down). `lib/cms/types.ts` is the canonical
+frontend data contract; `lib/cms/adapters.ts` maps Payload's generated
+types (`payload-types.ts`) into it — components never import generated
+Payload types directly.
 
 **Conditional rendering is mandatory:** if a CMS-controlled section is
 empty or disabled, omit the entire section. No empty containers,
@@ -71,7 +82,7 @@ Fonts: Clash Grotesk (primary) + Instrument Serif Italic (accent), self-hosted v
 
 Baseline headers already in `next.config.ts`: `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, `Strict-Transport-Security`.
 
-Full CSP deliberately deferred until Sanity project domains are finalized (wrong CSP breaks Studio silently). Revisit once live.
+Full CSP deliberately deferred until the production media host is finalized at Phase 8 (wrong CSP can break the admin panel silently). Revisit once live.
 
 As real backend logic gets added (forms, auth — Phase 5), Broken Access Control / Injection / Auth Failures become live concerns. Never trust client input; validate server-side. Never put secrets in `NEXT_PUBLIC_*` env vars.
 
@@ -88,12 +99,12 @@ As real backend logic gets added (forms, auth — Phase 5), Broken Access Contro
 ## Phases
 
 - [x] Phase 0 — Homepage
-- [ ] Phase 1 — Pillar pages (`/services/strategy`, `/build`, `/creative`, `/ai-automation`) — schema exists, template not yet built
-- [ ] Phase 2 — Service detail pages (16 services, 1 template)
-- [ ] Phase 3 — Work / case studies
-- [ ] Phase 4 — About
-- [ ] Phase 5 — Contact & Pricing (forms — security baseline above becomes live)
-- [ ] Phase 6 — Blog / Insights
+- [x] Phase 1 — Pillar pages (`/services/strategy`, `/build`, `/creative`, `/ai-automation`)
+- [ ] Phase 2 — Service detail pages (16 services, 1 template) — collection exists (`Services`), no route/fetcher yet
+- [ ] Phase 3 — Work / case studies — collection exists (`Projects`), no listing/detail route yet
+- [ ] Phase 4 — About — `TeamMembers` collection exists, no route yet
+- [ ] Phase 5 — Contact & Pricing (forms — security baseline above becomes live) — `PricingPackages` collection exists, no route yet
+- [ ] Phase 6 — Blog / Insights — `Posts` collection exists, no route yet
 - [ ] Phase 7 — Sitewide SEO (sitemap, structured data, default OG image)
 - [ ] Phase 8 — Deploy (Vercel)
 

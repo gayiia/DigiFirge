@@ -1,8 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { HomepageData } from "@/lib/sanity/types";
+import type { HomepageData } from "@/lib/cms/types";
 import { parseAccentText } from "@/lib/parseAccentText";
-import { urlFor } from "@/sanity/lib/image";
 import Reveal from "./Reveal";
 
 export default function Capabilities({ homepage }: { homepage: HomepageData }) {
@@ -49,7 +48,7 @@ export default function Capabilities({ homepage }: { homepage: HomepageData }) {
               } hover:bg-forge-orange/10`}
             >
               {pillar.icon ? (
-                <Image src={urlFor(pillar.icon).width(35).height(35).url()} alt="" width={35} height={35} />
+                <Image src={pillar.icon.url} alt="" width={35} height={35} />
               ) : (
                 <PillarIcon />
               )}

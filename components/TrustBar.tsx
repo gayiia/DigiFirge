@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import type { HomepageData } from "@/lib/sanity/types";
-import { urlFor } from "@/sanity/lib/image";
+import type { HomepageData } from "@/lib/cms/types";
 
 export default function TrustBar({ homepage }: { homepage: HomepageData }) {
   const logos = homepage.trustBarLogos ?? [];
@@ -32,7 +31,7 @@ export default function TrustBar({ homepage }: { homepage: HomepageData }) {
                 logo.logo ? (
                   <Image
                     key={`${logo.name}-${i}`}
-                    src={urlFor(logo.logo).height(32).url()}
+                    src={logo.logo.url}
                     alt={copy === 0 ? logo.logo.alt || logo.name || "" : ""}
                     width={140}
                     height={32}

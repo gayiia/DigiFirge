@@ -1,12 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { HomepageData } from "@/lib/sanity/types";
+import type { HomepageData } from "@/lib/cms/types";
 import { parseAccentText } from "@/lib/parseAccentText";
-import { urlFor } from "@/sanity/lib/image";
 
 export default function Hero({ homepage }: { homepage: HomepageData }) {
   const headingParts = parseAccentText(homepage.heroHeading);
-  const imageUrl = homepage.heroImage ? urlFor(homepage.heroImage).width(1200).url() : null;
+  const imageUrl = homepage.heroImage?.url ?? null;
 
   return (
     <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-12 md:py-20">
@@ -61,7 +60,7 @@ export default function Hero({ homepage }: { homepage: HomepageData }) {
         <div className="w-full lg:w-1/2">
           {imageUrl ? (
             <div className="relative h-[280px] w-full overflow-hidden rounded-2xl sm:h-[360px] lg:h-[424px]">
-              <Image src={imageUrl} alt={homepage.heroImage?.alt ?? ""} fill className="object-cover" priority />
+              <Image src={imageUrl} alt={homepage.heroImage?.alt ?? ""} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" priority />
             </div>
           ) : (
             <div

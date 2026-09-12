@@ -1,9 +1,9 @@
 # DigiForge Website
 
-CMS-driven homepage build for DigiForge — Next.js (App Router) + TypeScript +
-Tailwind CSS v4 on the frontend, Sanity as the CMS. Built so that adding a
-new pillar, service, or case study later is a form submission in Sanity
-Studio, not a code change.
+CMS-driven website build for DigiForge — Next.js (App Router) + TypeScript +
+Tailwind CSS v4 on the frontend, Payload CMS (self-hosted, Postgres) as the
+CMS. Built so that adding a new pillar, service, or case study later is a
+form submission in the Payload admin panel, not a code change.
 
 ## Getting started
 
@@ -12,103 +12,115 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000 — the homepage runs immediately on local
-placeholder content (see "How content works" below), no Sanity account
-needed to start developing.
+Open http://localhost:3000 — the site runs immediately on local placeholder
+content (see "How content works" below) even before a database is connected.
 
-## Setting up the real CMS (Sanity)
+## Setting up the real CMS (Payload)
 
-1. Go to https://www.sanity.io/manage and create a free account + new
-   project (a couple of clicks — a company name/logo is all it asks for).
-2. Copy `.env.local.example` to `.env.local` and fill in your project ID:
+Payload is self-hosted, so unlike a managed CMS this needs a real database
+of your own:
+
+1. Provision a Postgres database — the free tier on [Neon](https://neon.com)
+   or [Supabase](https://supabase.com) both work fine for this project's
+   scale. Copy the connection string.
+2. Copy `.env.local.example` to `.env.local` and fill in:
    ```bash
    cp .env.local.example .env.local
    ```
-3. Run `npx sanity dataset create production` (accept the default) to
-   create the dataset the app expects.
-4. Restart `npm run dev`, then open http://localhost:3000/studio — that's
-   your CMS. Sign in with the same account, and you'll see:
-   - **Site Settings** — logo, nav, footer, contact info, social links (one document, edit in place)
-   - **Homepage** — every section of the homepage: hero copy, trust bar logos, the 4 pillar cards, featured work, final CTA, FAQs
-   - **Pillars / Services / Projects / Blog / Team / Testimonials / Pricing** — the content types future page templates (Service Detail, Work, About, etc.) will consume
-5. Fill in the **Homepage** document and **Site Settings** document with
-   real content, hit Publish, and refresh the site — your content is live.
+   - `DATABASE_URI` — the Postgres connection string from step 1
+   - `PAYLOAD_SECRET` — any long random string (e.g. `openssl rand -hex 32`)
+3. Run `npm run dev`, then open http://localhost:3000/admin — Payload
+   auto-migrates the schema into your database on first connect. Create
+   your first admin user when prompted; you'll then see:
+   - **Site Settings** — logo, nav, footer, contact info, social links (a global, edit in place)
+   - **Homepage** — every section of the homepage: hero copy, trust bar logos, the 4 pillar cards, featured work, final CTA, FAQs (a global)
+   - **Pillars** — the 4 service pillars (`/services/[slug]`), fully wired up
+   - **Services / Projects / Posts / Team Members / Testimonials / Pricing Packages** — content types future page templates (Service Detail, Work, About, etc.) will consume
+4. Optionally run `npm run seed` once against a fresh database to recreate
+   the baseline copy (Site Settings, Homepage, the 4 Pillars) instead of
+   typing it all by hand. It doesn't seed images — upload those in the
+   admin panel yourself.
 
-Until you complete this, the site runs on the fallback content in
+Until a database is connected, the site runs on the fallback content in
 `lib/fallback-content.ts` so nothing is blocked waiting on CMS setup.
 
 ## How content works
 
-Every fetcher in `lib/sanity/fetchers.ts` follows the same rule: try
-Sanity, and if it's not configured yet (no project ID) or a request fails,
-fall back to local content instead of crashing the page. This means:
+Every fetcher in `lib/cms/fetchers.ts` follows the same rule: try Payload,
+and if it's not configured yet (no `DATABASE_URI`) or a request fails, fall
+back to local content instead of crashing the page. This means:
 
-- The site works immediately after `npm install`, before Sanity exists.
-- If Sanity ever has an outage, the live site keeps serving its last-known
-  fallback shape rather than going down.
-- Nothing in `components/` imports content directly — every component
-  takes `homepage` or `settings` as a prop, so the same components will
-  work whether the data came from Sanity or from the fallback file.
+- The site works immediately after `npm install`, before a database exists.
+- If the database ever has an outage, the live site keeps serving its
+  last-known fallback shape rather than going down.
+- Nothing in `components/` imports content directly, or imports Payload's
+  generated types — every component takes `homepage`/`settings`/`pillar` as
+  a prop shaped by `lib/cms/types.ts`, so the same components work whether
+  the data came from Payload or from the fallback file.
 
 ## Project structure
 
 ```
 app/
-  page.tsx                Homepage — fetches CMS content, assembles sections
-  layout.tsx
-  globals.css              Design tokens (colors, fonts) + accessibility defaults
-  studio/[[...tool]]/      Sanity Studio, embedded at /studio
-components/                All presentational, prop-driven — no hardcoded copy
+  (frontend)/              The actual public website
+    page.tsx                 Homepage — fetches CMS content, assembles sections
+    services/[slug]/         Pillar page template
+    layout.tsx
+  (payload)/                Payload's admin panel + API, embedded at /admin
+    admin/[[...segments]]/
+    api/[...slug]/
+  globals.css                Design tokens (colors, fonts) + accessibility defaults
+components/                  All presentational, prop-driven — no hardcoded copy
   Header.tsx, Hero.tsx, TrustBar.tsx, Capabilities.tsx,
-  FeaturedWork.tsx, FinalCta.tsx, Faq.tsx, Footer.tsx
-sanity/
-  schemaTypes/
-    documents/             siteSettings, homepage, pillar, service, project, post, misc
-    objects/                seo, cta, faqItem, processStep, metric, navigation
-  structure.ts             Studio sidebar — pins Site Settings & Homepage as singletons
-  lib/client.ts             Sanity client (gracefully degrades if unconfigured)
-  lib/image.ts              Image URL builder
-  env.ts                    Reads NEXT_PUBLIC_SANITY_* env vars
+  FeaturedWork.tsx, FinalCta.tsx, Faq.tsx, Footer.tsx,
+  PillarHero.tsx, PillarIntroduction.tsx, PillarWhyItMatters.tsx,
+  PillarProcess.tsx, PillarServices.tsx, PillarCaseStudies.tsx, PillarTestimonial.tsx
+collections/                  Payload collection configs — Pillars, Services, Projects,
+                                 Posts, TeamMembers, Testimonials, PricingPackages, Media, Users
+globals/                       Payload global configs — SiteSettings, Homepage
+fields/                        Shared/reusable field configs (seo, cta, faqItem, processStep,
+                                  metric, navigation, slug) — composed into collections/globals
+payload.config.ts              Root Payload config — db adapter, collections, globals
+payload-types.ts               Generated TypeScript types (run `npm run generate:types` after schema changes)
 lib/
-  sanity/
-    queries.ts               GROQ queries
-    fetchers.ts               getSiteSettings(), getHomepage() — try Sanity, else fallback
-    types.ts                  Shared TypeScript types for CMS content
-  fallback-content.ts        Local placeholder content, shaped like real CMS output
-  parseAccentText.ts          Parses "Forge better **digital** businesses." into styled parts
+  payload.ts                    Cached getPayload() client
+  cms/
+    fetchers.ts                  getSiteSettings(), getHomepage(), getPillar(), getPillarSlugs() — try Payload, else fallback
+    adapters.ts                   Maps Payload's generated types into the frontend contract
+    types.ts                      Canonical frontend data contract — what components actually depend on
+  fallback-content.ts            Local placeholder content, shaped like real CMS output
+  parseAccentText.ts              Parses "Forge better **digital** businesses." into styled parts
+scripts/
+  seed.ts                         One-off content seed (npm run seed)
 ```
 
 ## Content model (what's built vs. what's next)
 
-Fully wired to the homepage right now: Site Settings, Homepage.
+Fully wired to real pages right now: Site Settings, Homepage, Pillars
+(`/services/[slug]`).
 
-Schemas exist and are ready in Studio, but no frontend template consumes
-them yet (that's the next phase, page by page): Pillar, Service, Project,
-Post, Team Member, Testimonial, Pricing Package. Building `/services/[pillar]`
-next, for example, is "write one template that queries the `pillar` and
-`service` schemas" — no new CMS work required.
+Collections exist and are ready in the admin panel, but no frontend
+template consumes them yet (that's the next phase, page by page): Service,
+Project, Post, Team Member, Testimonial, Pricing Package. Building
+`/services/[pillar]/[service]` next, for example, is "write one template
+that queries the `pillars` and `services` collections" — no new CMS work
+required.
 
-## Adding the real brand fonts
+## Brand fonts
 
-The site currently falls back to system fonts. To get the real DigiForge
-typography (Clash Grotesk + Instrument Serif Italic):
-
-1. **Clash Grotesk** — free, from Fontshare: https://www.fontshare.com/fonts/clash-grotesk
-   - `public/fonts/clash-grotesk/ClashGrotesk-Regular.woff2`
-   - `public/fonts/clash-grotesk/ClashGrotesk-Medium.woff2`
-   - `public/fonts/clash-grotesk/ClashGrotesk-Semibold.woff2`
-2. **Instrument Serif** — free, on Google Fonts: https://fonts.google.com/specimen/Instrument+Serif
-   - `public/fonts/instrument-serif/InstrumentSerif-Italic.woff2`
-
-The `@font-face` rules are already set up in `app/globals.css` — dropping
-the files in is all that's needed.
+Clash Grotesk (primary) + Instrument Serif Italic (accent) are already in
+`public/fonts/` and wired up via `@font-face` in `app/globals.css` — no
+setup needed. If those files ever go missing, re-download from
+[Fontshare](https://www.fontshare.com/fonts/clash-grotesk) (Clash Grotesk:
+Regular/Medium/Semibold) and [Google Fonts](https://fonts.google.com/specimen/Instrument+Serif)
+(Instrument Serif Italic).
 
 ## SEO
 
 - Every content type with a public page (Homepage, Pillar, Service, Project,
-  Post) has a `seo` field group: meta title/description, Open Graph
+  Post) has an `seo` field group: meta title/description, Open Graph
   title/description/image, canonical URL, no-index toggle.
-- `generateMetadata()` in `app/page.tsx` reads these into Next.js's native
+- `generateMetadata()` in each page reads these into Next.js's native
   metadata API — no manual `<head>` tag editing required from the CMS side.
 - Sitemap and structured data (Organization/LocalBusiness schema) are
   straightforward additions once more page templates exist — flagged for
@@ -126,7 +138,9 @@ git push -u origin main
 
 ## Deployment
 
-Vercel is the preferred host. When you connect the repo, add the same
-`NEXT_PUBLIC_SANITY_*` environment variables from `.env.local` in the
-Vercel project settings — the CMS won't work in production without them.
-
+Vercel is the preferred host. When you connect the repo, add `DATABASE_URI`
+and `PAYLOAD_SECRET` as environment variables in the Vercel project
+settings — the CMS won't work in production without them. Also plan to
+switch media storage off local disk (Vercel's serverless filesystem is
+ephemeral) to a storage adapter like `@payloadcms/storage-vercel-blob`
+before going live — see Phase 8 in `CLAUDE.md`.

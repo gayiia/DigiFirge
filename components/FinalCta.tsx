@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { HomepageData } from "@/lib/sanity/types";
+import type { HomepageData } from "@/lib/cms/types";
 import { parseAccentText } from "@/lib/parseAccentText";
 
 export default function FinalCta({ homepage }: { homepage: HomepageData }) {

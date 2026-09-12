@@ -1,27 +1,12 @@
 import type { NextConfig } from "next";
+import { withPayload } from "@payloadcms/next/withPayload";
 
 const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdn.sanity.io",
-        pathname: "/images/**",
-      },
-    ],
-    // Some networks (this dev machine included) resolve cdn.sanity.io
-    // through a NAT64 IPv6 address, which Next's SSRF guard otherwise
-    // treats as a private IP and refuses to fetch. Safe here because
-    // remotePatterns above already locks fetches to that exact trusted
-    // hostname — this isn't opening fetches to arbitrary private IPs.
-    dangerouslyAllowLocalIP: true,
-  },
-
   // Baseline security headers — OWASP Top 10:2025 A02 (Security Misconfiguration).
   // A full Content-Security-Policy is deliberately deferred: it needs to
-  // correctly allow Sanity's Studio origins and CDN image domains, and a
-  // wrong CSP silently breaks the Studio rather than failing loudly — safer
-  // to add once the real Sanity project domains are finalized (Phase 1).
+  // correctly allow Payload's admin origins and media domains, and a
+  // wrong CSP silently breaks the admin panel rather than failing loudly —
+  // safer to add once the production media host (Phase 8) is finalized.
   async headers() {
     return [
       {
@@ -46,4 +31,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig);

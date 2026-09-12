@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { SiteSettingsData } from "@/lib/sanity/types";
-import { urlFor } from "@/sanity/lib/image";
+import type { SiteSettingsData } from "@/lib/cms/types";
 
 export default function Footer({ settings }: { settings: SiteSettingsData }) {
   const columns = settings.footerColumns ?? [];
@@ -17,7 +16,7 @@ export default function Footer({ settings }: { settings: SiteSettingsData }) {
             <div className="flex flex-col gap-4">
               {settings.logo ? (
                 <Image
-                  src={urlFor(settings.logo).width(480).height(120).url()}
+                  src={settings.logo.url}
                   alt={settings.logo.alt || settings.siteName || "DigiForge"}
                   width={240}
                   height={60}

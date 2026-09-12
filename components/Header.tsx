@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { SiteSettingsData } from "@/lib/sanity/types";
-import { urlFor } from "@/sanity/lib/image";
+import type { SiteSettingsData } from "@/lib/cms/types";
 
 export default function Header({ settings }: { settings: SiteSettingsData }) {
   const links = settings.navigation ?? [];
@@ -13,7 +12,7 @@ export default function Header({ settings }: { settings: SiteSettingsData }) {
         {settings.logo ? (
           <Link href="/" className="shrink-0">
             <Image
-              src={urlFor(settings.logo).width(320).height(80).url()}
+              src={settings.logo.url}
               alt={settings.logo.alt || settings.siteName || "DigiForge home"}
               width={160}
               height={40}
