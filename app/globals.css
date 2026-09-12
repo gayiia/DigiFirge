@@ -163,13 +163,14 @@ input:focus-visible,
   }
 }
 
-/* Trust-bar logo carousel: two back-to-back copies of the same set,
-   translated by the exact pixel width of one copy (measured in JS and
-   set as --marquee-distance — see TrustBar.tsx) so the loop from last
-   logo back to first is seamless. A percentage-based translateX(-50%)
-   doesn't split evenly once flex `gap` is involved, which caused a
-   visible snap at the loop point. Speed comes from the CMS via the
-   inline animationDuration set on the element. */
+/* Trust-bar logo carousel: two back-to-back copies of the same set.
+   Every logo (both copies) carries the same trailing margin instead of
+   a flex `gap` between the copies — a `gap` only exists between the two
+   copy wrappers, which is asymmetric (nothing enforces the same gap on
+   the wrap-around back to the start), and that's what caused a visible
+   snap at the loop point. Uniform margins make the two copies exactly
+   equal width, so a plain translateX(-50%) is exact. Speed comes from
+   the CMS via the inline animationDuration set on the element. */
 .marquee-fade {
   mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
@@ -181,7 +182,7 @@ input:focus-visible,
 }
 @keyframes marquee {
   to {
-    transform: translateX(calc(-1 * var(--marquee-distance, 0px)));
+    transform: translateX(-50%);
   }
 }
 /* WCAG 2.2.2 (Pause, Stop, Hide) — auto-moving content needs a pause
